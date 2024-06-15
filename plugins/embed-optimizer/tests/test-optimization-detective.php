@@ -25,10 +25,12 @@ class Test_Embed_Optimizer_Optimization_Detective extends WP_UnitTestCase {
 		if ( ! class_exists( OD_Tag_Visitor_Registry::class ) ) {
 			$this->markTestSkipped( 'Optimization Detective is not active.' );
 		}
-		$registry = new OD_Tag_Visitor_Registry();
-		embed_optimizer_register_tag_visitors( $registry );
+		$link_collection  = new OD_Link_Collection();
+		$group_collection = new OD_URL_Metrics_Group_Collection( array(), array( 1024 ), 3, DAY_IN_SECONDS );
+		$registry         = new OD_Tag_Visitor_Registry();
+		embed_optimizer_register_tag_visitors( $registry, $group_collection, $link_collection );
 		$this->assertTrue( $registry->is_registered( 'embeds' ) );
-		$this->assertSame( 'embed_optimizer_visit_tag', $registry->get_registered( 'embeds' ) );
+		$this->assertInstanceOf( Embed_Optimizer_Tag_Visitor::class, $registry->get_registered( 'embeds' ) );
 	}
 
 	/**
@@ -97,7 +99,7 @@ class Test_Embed_Optimizer_Optimization_Detective extends WP_UnitTestCase {
 	/**
 	 * Test embed_optimizer_visit_tag().
 	 *
-	 * @covers ::embed_optimizer_visit_tag
+	 * @covers Embed_Optimizer_Tag_Visitor
 	 *
 	 * @dataProvider data_provider_test_od_optimize_template_output_buffer
 	 * @throws Exception But it won't.
