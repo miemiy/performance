@@ -219,7 +219,6 @@ final class OD_HTML_Tag_Processor extends WP_HTML_Tag_Processor {
 	 *
 	 * @inheritDoc
 	 * @since n.e.x.t
-	 * @todo Add a next_open_tag() convenience method.
 	 *
 	 * @param null $query Query.
 	 * @return bool Whether a tag was matched.
@@ -231,6 +230,22 @@ final class OD_HTML_Tag_Processor extends WP_HTML_Tag_Processor {
 			throw new InvalidArgumentException( esc_html__( 'Processor subclass does not support queries.', 'optimization-detective' ) );
 		}
 		return parent::next_tag( array( 'tag_closers' => 'visit' ) );
+	}
+
+	/**
+	 * Finds the next open tag.
+	 *
+	 * @since n.e.x.t
+	 *
+	 * @return bool Whether a tag was matched.
+	 */
+	public function next_open_tag(): bool {
+		while ( $this->next_tag() ) {
+			if ( ! $this->is_tag_closer() ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
