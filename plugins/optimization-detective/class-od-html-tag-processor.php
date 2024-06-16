@@ -202,6 +202,14 @@ final class OD_HTML_Tag_Processor extends WP_HTML_Tag_Processor {
 	private $current_xpath = null;
 
 	/**
+	 * Whether the previous tag was void.
+	 *
+	 * @since n.e.x.t
+	 * @var bool
+	 */
+	private $last_tag_visits_closer = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param string $html HTML to process.
@@ -247,14 +255,6 @@ final class OD_HTML_Tag_Processor extends WP_HTML_Tag_Processor {
 		}
 		return false;
 	}
-
-	/**
-	 * Whether the previous tag was void.
-	 *
-	 * @since n.e.x.t
-	 * @var bool
-	 */
-	private $last_tag_visits_closer = false;
 
 	/**
 	 * Finds the next token in the HTML document.
