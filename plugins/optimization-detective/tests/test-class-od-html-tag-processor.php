@@ -330,6 +330,17 @@ class Test_OD_HTML_Tag_Processor extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test next_tag() passing query which is invalid.
+	 *
+	 * @covers ::next_tag
+	 */
+	public function test_next_tag_with_query(): void {
+		$this->expectException( InvalidArgumentException::class );
+		$p = new OD_HTML_Tag_Processor( '<html></html>' );
+		$p->next_tag( array( 'tag_name' => 'HTML' ) );
+	}
+
+	/**
 	 * Test append_head_html().
 	 *
 	 * @covers ::append_head_html
